@@ -1,0 +1,15 @@
+дамп был сделан 27.07.2023
+чтобы не было ошибки fatal error #1
+меняем
+системное время на ~01.01.1970 или изолированно только в KUSER_SHARED_DATA
+GetVolumeInformationW на *lpVolumeSerialNumber = 0x3C3C0324
+GetComputerNameW на wcscpy(lpBuffer, L"DESKTOP-50VH68B")
+GetAdaptersInfo на *(DWORD64*)&AdapterInfo->Address = 0xC9797E47D538
+cpuid при eax == 1
+    cpuid.eax = 0x000906E9
+    cpuid.ebx = 0x00100800
+    cpuid.ecx = 0x7FFAFBFF
+    cpuid.edx = 0xBFEBFBFF
+cpuid подменяется при помощи гипервизора (который нужно предварительно скрыть иначе будет fatal error #3) или в um на последующей инструкции с помощью drx регистров при срабатывании переписываем значения (трассировку css где видны все вызовы cpuid в рамках модуля оинка начиная с точки входа (после распаковки) приложил)
+если мне будет не лень позже проведу трассировку l4d2 и допишу модуль подмены в um а пока ебитесь с тем что есть
+p.s. запомнив пустой username/password в последующих запусках лоадер будет вылетать в этом случаем удаляем "OINK/Login" в https://support.microsoft.com/en-us/windows/accessing-credential-manager-1b5c916a-6a16-889f-8581-fc16e8165ac0
